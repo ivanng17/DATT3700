@@ -54,7 +54,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(0);
   
   if (finished) {
     showResult();
@@ -64,20 +64,23 @@ function draw() {
 }
 
 function showQuestion() {
-  textSize(20);
+  textSize(60);
+  fill(255);
   textAlign(CENTER, CENTER);
-  text(questions[currentQuestion].q, width / 2, 50);
+  text(questions[currentQuestion].q, width / 2, 100);
   
   for (let i = 0; i < 4; i++) {
-    let x = 100;
-    let y = 100 + i * 70;
-    let w = 400;
-    let h = 50;
+    let x = width/2;
+    let y = 300 + i * 140;
+    let w = 800;
+    let h = 100;
     
-    fill(200);
-    rect(x, y, w, h, 10);
-    fill(0);
-    text(questions[currentQuestion].answers[i], x + w / 2, y + h / 2);
+    rectMode(CENTER);
+    fill(50);
+    rect(x, y, w, h, 100);
+    fill(255);
+    textSize(40);
+    text(questions[currentQuestion].answers[i], x, y);
   }
 }
 
@@ -85,10 +88,10 @@ function mousePressed() {
   if (finished) return;
   
   for (let i = 0; i < 4; i++) {
-    let x = 100;
-    let y = 100 + i * 70;
-    let w = 400;
-    let h = 50;
+    let x = width/2;
+    let y = 300 + i * 140;
+    let w = 800;
+    let h = 100;
     
     if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
       scores[questions[currentQuestion].points[i]]++;
@@ -114,7 +117,7 @@ function showResult() {
     }
   }
   
-  textSize(30);
+  textSize(100);
   textAlign(CENTER, CENTER);
   text("Your view of happiness is: " + result, width / 2, height / 2);
 }
