@@ -94,7 +94,7 @@ function mousePressed() {
     let w = 800;
     let h = 100;
     
-    if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
+    if (mouseX > x - w/2 && mouseX < x + w && mouseY > y && mouseY < y + h) {
       scores[questions[currentQuestion].points[i]]++;
       
       if (currentQuestion < questions.length - 1) {
