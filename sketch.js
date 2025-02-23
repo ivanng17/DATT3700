@@ -75,7 +75,7 @@ function showQuestion() {
     let h = 50;
     
     fill(200);
-    rect(x, y, w, h, 100);
+    rect(x, y, w, h, 10);
     fill(0);
     text(questions[currentQuestion].answers[i], x + w / 2, y + h / 2);
   }
