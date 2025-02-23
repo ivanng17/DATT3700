@@ -64,6 +64,7 @@ function draw() {
 }
 
 function showQuestion() {
+  textFont('Courier New')
   textSize(60);
   fill(255);
   textAlign(CENTER, CENTER);
