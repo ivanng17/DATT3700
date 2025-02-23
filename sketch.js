@@ -65,7 +65,7 @@ function draw() {
 
 function showQuestion() {
   textFont('Courier New')
-  textSize(60);
+  textSize(50);
   fill(255);
   textAlign(CENTER, CENTER);
   text(questions[currentQuestion].q, width / 2, 100);
@@ -80,7 +80,7 @@ function showQuestion() {
     fill(50);
     rect(x, y, w, h, 50);
     fill(255);
-    textSize(40);
+    textSize(30);
     text(questions[currentQuestion].answers[i], x, y);
   }
 }
@@ -117,7 +117,7 @@ function showResult() {
     }
   }
   
-  textSize(100);
+  textSize(80);
   textAlign(CENTER, CENTER);
   text("Your view of happiness is: " + result, width / 2, height / 2);
 
