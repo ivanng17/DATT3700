@@ -50,7 +50,7 @@ let scores = { "Wealth": 0, "Health": 0, "Freedom": 0, "Generosity": 0 };
 let finished = false;
 
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(1920, 1080);
 }
 
 function draw() {
