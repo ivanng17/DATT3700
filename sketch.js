@@ -77,7 +77,7 @@ function showQuestion() {
     
     rectMode(CENTER);
     fill(50);
-    rect(x, y, w, h, 100);
+    rect(x, y, w, h, 50);
     fill(255);
     textSize(40);
     text(questions[currentQuestion].answers[i], x, y);
