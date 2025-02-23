@@ -50,7 +50,7 @@ let scores = { "Wealth": 0, "Health": 0, "Freedom": 0, "Generosity": 0 };
 let finished = false;
 
 function setup() {
-  createCanvas(1920, 1080);
+  createCanvas(width, height);
 }
 
 function draw() {
@@ -120,4 +120,5 @@ function showResult() {
   textSize(100);
   textAlign(CENTER, CENTER);
   text("Your view of happiness is: " + result, width / 2, height / 2);
+
 }
