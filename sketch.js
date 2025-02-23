@@ -101,7 +101,6 @@ function mousePressed() {
       } else {
         finished = true;
       }
-      break;
     }
   }
 }
