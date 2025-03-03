@@ -60,6 +60,8 @@ let finished = false;
 function preload(){
   // Loading the data from the world happiness report
   table = loadTable("dataset.csv", "csv", "header");
+  questionFont = loadFont("OpenSauceTwo-SemiBold.ttf")
+  answerFont = loadFont("Raleway-Medium.ttf")
 }
 
 function setup() {
@@ -95,11 +97,22 @@ function draw() {
 }
 
 function showQuestion() {
-  textFont('Courier New')
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+
+  textFont(questionFont);
   textSize(50);
   fill(255);
   textAlign(CENTER, CENTER);
-  text(questions[currentQuestion].q, width / 2, 50);
+  drawingContext.shadowColor = 'white';
+  drawingContext.shadowBlur = 5;
+  text(questions[currentQuestion].q, width / 2, 125);
+  drawingContext.shadowBlur = 0;
+
   
   for (let i = 0; i < 4; i++) {
     let x = width/2;
@@ -107,11 +120,13 @@ function showQuestion() {
     let w = 800;
     let h = 100;
     
+    noStroke();
     rectMode(CENTER);
-    fill(50);
+    fill(255, 10);
     rect(x, y, w, h, 50);
     fill(255);
     textSize(30);
+    textFont(answerFont);
     text(questions[currentQuestion].answers[i], x, y);
   }
 }
@@ -147,7 +162,15 @@ function keyPressed() {
 function showResult() {
   let maxScore = 0;
   let result = "";
-  
+
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  drawingContext.shadowBlur = 0;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+
   maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
   
   if (maxScore == wealthScore){
@@ -163,9 +186,12 @@ function showResult() {
     result = "Generosity";
   }
 
-  
-  textSize(30);
+  noFill();
+  fill(255);
+  textSize(75);
   textAlign(CENTER, CENTER);
+  drawingContext.shadowColor = 'white';
+  drawingContext.shadowBlur = 10;
   text("Your view of happiness is: " + result, width / 2, height / 2);
 }
 
