@@ -3,6 +3,7 @@
 
 let table;
 
+//Question array
 let questions = [
   { q: "You find $500 on the ground. What do you do?", 
     answers: ["Keep it and save it.", "Spa day.", "Spend it on fun.", "Give it to someone in need."],
@@ -50,21 +51,25 @@ let questions = [
   }
 ];
 
+//Initializing variables
 let currentQuestion = 0;
 let wealthScore = 0;
 let healthScore = 0;
 let freedomScore = 0;
 let generosityScore = 0;
-let finished = false;
+let surveyState = 1;
 
 function preload(){
   // Loading the data from the world happiness report
   table = loadTable("dataset.csv", "csv", "header");
+  
+  //Loading fonts
   questionFont = loadFont("OpenSauceTwo-SemiBold.ttf")
   answerFont = loadFont("Raleway-Medium.ttf")
 }
 
 function setup() {
+  //Setting window size
   createCanvas(1920, 1080);
   background(0);
   
@@ -89,14 +94,21 @@ function setup() {
 function draw() {
   background(0);
   
-  if (finished == true) {
-    showResult();
-  } else {
+  // Chooses which state is being displayed on the website
+  if (surveyState == 1){
+    showTitle();
+  }
+  if (surveyState == 2){
     showQuestion();
+  }
+  if (surveyState == 3){
+    showResult();
   }
 }
 
-function showQuestion() {
+function showTitle() {
+  
+  // Drawing background
   let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
   grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
   grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
@@ -104,6 +116,49 @@ function showQuestion() {
   rectMode(CORNER);
   rect(0, 0, width, height);
 
+  // Main title text
+  textFont(questionFont);
+  textSize(100);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  drawingContext.shadowColor = 'white';
+  drawingContext.shadowBlur = 10;
+  text("A CONSTELLATION OF \n YOUR HAPPINESS", width / 2, height / 2);
+  drawingContext.shadowBlur = 0;
+  
+  // Input prompt to start quiz text
+  textFont(answerFont);
+  textSize(50);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  drawingContext.shadowColor = 'white';
+  drawingContext.shadowBlur = 10;
+  text("Press any key to begin", width / 2, height / 2 + height / 4);
+  drawingContext.shadowBlur = 0;
+  
+  // Credits text
+  textFont(answerFont);
+  textSize(20);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  drawingContext.shadowColor = 'white';
+  drawingContext.shadowBlur = 10;
+  text("Created by: Team Red \n Fuad, Luca, Rabiha, Miaoshu, Tessa & Ivan", width / 2, height / 2 + height / 4 * 1.75);
+  drawingContext.shadowBlur = 0;
+  
+}
+
+
+function showQuestion() {
+  //Create background
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+
+  //Display the question
   textFont(questionFont);
   textSize(50);
   fill(255);
@@ -113,7 +168,7 @@ function showQuestion() {
   text(questions[currentQuestion].q, width / 2, 125);
   drawingContext.shadowBlur = 0;
 
-  
+  //Displays the prompts for the users to choose
   for (let i = 0; i < 4; i++) {
     let x = width/2;
     let y = 300 + i * 140;
@@ -132,29 +187,38 @@ function showQuestion() {
 }
 
 function keyPressed() {
-  if (finished == true) {
+  
+  // If the user goes to the result screen, stop tracking key inputs
+  if (surveyState == 3) {
     return;
   }
-    
-  if (key == '1' && currentQuestion < questions.length){
+  
+  // If the user inputs a key at the title screen, go to the questions
+  if ((key == '1' || key == '2' || key == '3' || key == '4') && surveyState == 1){
+    surveyState = 2;
+  }
+  
+  // If the user inputs a choice, add points to the specified category
+  if (key == '1' && currentQuestion < questions.length && surveyState == 2){
     wealthScore++;
     currentQuestion++;
   }
-  if (key == '2' && currentQuestion < questions.length){
+  if (key == '2' && currentQuestion < questions.length && surveyState == 2){
     healthScore++;
     currentQuestion++;
   }
-  if (key == '3' && currentQuestion < questions.length){
+  if (key == '3' && currentQuestion < questions.length && surveyState == 2){
     freedomScore++;
     currentQuestion++;
   }
-  if (key == '4' && currentQuestion < questions.length){
+  if (key == '4' && currentQuestion < questions.length && surveyState == 2){
     generosityScore++;
     currentQuestion++;
   }
 
+  // If the user answers all the questions, go to the result screen
   if (currentQuestion >= questions.length) {
-    finished = true;
+    surveyState = 3;
   }
 }
 
@@ -163,6 +227,7 @@ function showResult() {
   let maxScore = 0;
   let result = "";
 
+  // Draw background
   let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
   grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
   grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
@@ -171,6 +236,7 @@ function showResult() {
   rectMode(CORNER);
   rect(0, 0, width, height);
 
+  //Display which value was prioritized the most by the user
   maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
   
   if (maxScore == wealthScore){
@@ -186,6 +252,7 @@ function showResult() {
     result = "Generosity";
   }
 
+  //Display the results
   noFill();
   fill(255);
   textSize(75);
