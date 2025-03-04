@@ -66,6 +66,8 @@ function preload(){
   //Loading fonts
   questionFont = loadFont("OpenSauceTwo-SemiBold.ttf")
   answerFont = loadFont("Raleway-Medium.ttf")
+  
+  star = loadImage("star.png");
 }
 
 function setup() {
@@ -79,7 +81,9 @@ function setup() {
   health = table.getColumn("Health");
   freedom = table.getColumn("Freedom");
   generosity = table.getColumn("Generosity");
-
+  x = table.getColumn("x");
+  y = table.getColumn("y");
+  
   //testing arrays
 /*
   print(country)
@@ -98,16 +102,49 @@ function draw() {
   if (surveyState == 1){
     showTitle();
   }
-  if (surveyState == 2){
+  else if (surveyState == 2){
     showQuestion();
   }
-  if (surveyState == 3){
+  else if (surveyState == 3){
     showResult();
+  }
+  else{
+    showAnim();
   }
 }
 
-function showTitle() {
+function keyPressed() {
+  // If the user inputs a key at the title screen, go to the questions
+  if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState == 1)){
+    surveyState++;
+  }
   
+  // If the user inputs a choice, add points to the specified category
+  if ((key == '1') && (currentQuestion < questions.length) && (surveyState == 2)){
+    wealthScore++;
+    currentQuestion++;
+  }
+  if ((key == '2') && (currentQuestion < questions.length) && (surveyState == 2)){
+    healthScore++;
+    currentQuestion++;
+  }
+  if ((key == '3') && (currentQuestion < questions.length) && (surveyState == 2)){
+    freedomScore++;
+    currentQuestion++;
+  }
+  if ((key == '4') && (currentQuestion < questions.length) && (surveyState == 2)){
+    generosityScore++;
+    currentQuestion++;
+  }
+
+  // If the user answers all the questions, go to the result screen
+  if (currentQuestion >= questions.length) {
+    surveyState++;
+  }
+}
+
+
+function showTitle() {
   // Drawing background
   let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
   grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
@@ -145,7 +182,6 @@ function showTitle() {
   drawingContext.shadowBlur = 10;
   text("Created by: Team Red \n Fuad, Luca, Rabiha, Miaoshu, Tessa & Ivan", width / 2, height / 2 + height / 4 * 1.75);
   drawingContext.shadowBlur = 0;
-  
 }
 
 
@@ -186,43 +222,6 @@ function showQuestion() {
   }
 }
 
-function keyPressed() {
-  
-  // If the user goes to the result screen, stop tracking key inputs
-  if (surveyState == 3) {
-    return;
-  }
-  
-  // If the user inputs a key at the title screen, go to the questions
-  if ((key == '1' || key == '2' || key == '3' || key == '4') && surveyState == 1){
-    surveyState = 2;
-  }
-  
-  // If the user inputs a choice, add points to the specified category
-  if (key == '1' && currentQuestion < questions.length && surveyState == 2){
-    wealthScore++;
-    currentQuestion++;
-  }
-  if (key == '2' && currentQuestion < questions.length && surveyState == 2){
-    healthScore++;
-    currentQuestion++;
-  }
-  if (key == '3' && currentQuestion < questions.length && surveyState == 2){
-    freedomScore++;
-    currentQuestion++;
-  }
-  if (key == '4' && currentQuestion < questions.length && surveyState == 2){
-    generosityScore++;
-    currentQuestion++;
-  }
-
-  // If the user answers all the questions, go to the result screen
-  if (currentQuestion >= questions.length) {
-    surveyState = 3;
-  }
-}
-
-
 function showResult() {
   let maxScore = 0;
   let result = "";
@@ -260,6 +259,25 @@ function showResult() {
   drawingContext.shadowColor = 'white';
   drawingContext.shadowBlur = 10;
   text("Your view of happiness is: " + result, width / 2, height / 2);
+  drawingContext.shadowBlur = 0;
+}
+
+function showAnim() {
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+  
+  for (let i = 0; i < country.length; i++){
+    drawingContext.shadowColor = 'white';
+    drawingContext.shadowBlur = 10;
+    starX = x[i];
+    starY = y[i];
+    image(star, starX, starY, 10, 10);
+    drawingContext.shadowBlur = 0;
+  }
 }
 
 
