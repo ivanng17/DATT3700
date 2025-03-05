@@ -84,24 +84,15 @@ function setup() {
   x = table.getColumn("x");
   y = table.getColumn("y");
   
-infoBox = createDiv('');
-infoBox.style('position', 'absolute');
-infoBox.style('background', 'rgba(0, 0, 0, 0.7)');
-infoBox.style('color', 'white');
-infoBox.style('padding', '10px');
-infoBox.style('border-radius', '5px');
-infoBox.style('font-family', 'Arial, sans-serif');
-infoBox.hide(); 
+  infoBox = createDiv('');
+  infoBox.style('position', 'absolute');
+  infoBox.style('background', 'rgba(0, 0, 0, 0.7)');
+  infoBox.style('color', 'white');
+  infoBox.style('padding', '10px');
+  infoBox.style('border-radius', '5px');
+  infoBox.style('font-family', 'Arial, sans-serif');
+  infoBox.hide(); 
 
-  
-  //testing arrays
-/*
-  print(country)
-  print(wealth)
-  print(health)
-  print(freedom)
-  print(generosity)
-*/
 }
 
 
@@ -125,40 +116,40 @@ function draw() {
 
 function mousePressed() {
   if (surveyState > 3){
-  let closestStar = null;
-  let minDist = 15; // Click detection radius
+    let closestStar = null;
+    let minDist = 15; // Click detection radius
 
-  for (let i = 0; i < country.length; i++) {
-    let starX = x[i];
-    let starY = y[i];
-    let d = dist(mouseX, mouseY, starX, starY);
+    for (let i = 0; i < country.length; i++) {
+      let starX = x[i];
+      let starY = y[i];
+      let d = dist(mouseX, mouseY, starX, starY);
 
-    if (d < minDist) {
-      closestStar = i;
-      minDist = d;
+      if (d < minDist) {
+        closestStar = i;
+        minDist = d;
+      }
+    }
+
+    if (closestStar !== null) {
+      let countryName = country[closestStar];
+      let countryHealth = health[closestStar];
+      let countryWealth = wealth[closestStar];
+      let countryFreedom = freedom[closestStar];
+      let countryGenerosity = generosity[closestStar];
+
+      infoBox.html(`
+        <strong>${countryName}</strong><br>
+        Health: ${countryHealth}<br>
+        Wealth: ${countryWealth}<br>
+        Freedom: ${countryFreedom}<br>
+        Generosity: ${countryGenerosity}
+      `);
+      infoBox.position(mouseX + 10, mouseY + 10);
+      infoBox.show();
+    } else {
+      infoBox.hide();
     }
   }
-
-  if (closestStar !== null) {
-    let countryName = country[closestStar];
-    let countryHealth = health[closestStar];
-    let countryWealth = wealth[closestStar];
-    let countryFreedom = freedom[closestStar];
-    let countryGenerosity = generosity[closestStar];
-
-    infoBox.html(`
-      <strong>${countryName}</strong><br>
-      Health: ${countryHealth}<br>
-      Wealth: ${countryWealth}<br>
-      Freedom: ${countryFreedom}<br>
-      Generosity: ${countryGenerosity}
-    `);
-    infoBox.position(mouseX + 10, mouseY + 10);
-    infoBox.show();
-  } else {
-    infoBox.hide();
-  }
-}
 }
 
 
