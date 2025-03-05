@@ -84,6 +84,16 @@ function setup() {
   x = table.getColumn("x");
   y = table.getColumn("y");
   
+infoBox = createDiv('');
+infoBox.style('position', 'absolute');
+infoBox.style('background', 'rgba(0, 0, 0, 0.7)');
+infoBox.style('color', 'white');
+infoBox.style('padding', '10px');
+infoBox.style('border-radius', '5px');
+infoBox.style('font-family', 'Arial, sans-serif');
+infoBox.hide(); 
+
+  
   //testing arrays
 /*
   print(country)
@@ -112,6 +122,43 @@ function draw() {
     showAnim();
   }
 }
+
+function mousePressed() {
+  let closestStar = null;
+  let minDist = 15; // Click detection radius
+
+  for (let i = 0; i < country.length; i++) {
+    let starX = x[i];
+    let starY = y[i];
+    let d = dist(mouseX, mouseY, starX, starY);
+
+    if (d < minDist) {
+      closestStar = i;
+      minDist = d;
+    }
+  }
+
+  if (closestStar !== null) {
+    let countryName = country[closestStar];
+    let countryHealth = health[closestStar];
+    let countryWealth = wealth[closestStar];
+    let countryFreedom = freedom[closestStar];
+    let countryGenerosity = generosity[closestStar];
+
+    infoBox.html(`
+      <strong>${countryName}</strong><br>
+      Health: ${countryHealth}<br>
+      Wealth: ${countryWealth}<br>
+      Freedom: ${countryFreedom}<br>
+      Generosity: ${countryGenerosity}
+    `);
+    infoBox.position(mouseX + 10, mouseY + 10);
+    infoBox.show();
+  } else {
+    infoBox.hide();
+  }
+}
+
 
 function keyPressed() {
   // If the user inputs a key at the title screen, go to the questions
@@ -271,14 +318,14 @@ function showAnim() {
   rectMode(CORNER);
   rect(0, 0, width, height);
   
-  for (let i = 0; i < country.length; i++){
-    drawingContext.shadowColor = 'white';
-    drawingContext.shadowBlur = 10;
-    starX = x[i];
-    starY = y[i];
-    image(star, starX, starY, 10, 10);
-    drawingContext.shadowBlur = 0;
-  }
+for (let i = 0; i < country.length; i++){
+  drawingContext.shadowColor = 'white';
+  drawingContext.shadowBlur = 10;
+  let starX = x[i];
+  let starY = y[i];
+  image(star, starX, starY, 10, 10);
+  drawingContext.shadowBlur = 0;
+}
 }
 
 
