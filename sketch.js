@@ -124,6 +124,7 @@ function draw() {
 }
 
 function mousePressed() {
+  if (surveyState > 3){
   let closestStar = null;
   let minDist = 15; // Click detection radius
 
@@ -157,6 +158,7 @@ function mousePressed() {
   } else {
     infoBox.hide();
   }
+}
 }
 
 
