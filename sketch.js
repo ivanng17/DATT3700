@@ -64,7 +64,7 @@ function preload(){
   table = loadTable("dataset.csv", "csv", "header");
   
   //Loading fonts
-  questionFont = loadFont("OpenSauceTwo-SemiBold.ttf")
+  questionFont = loadFont("CinzelDecorative-Regular.ttf")
   answerFont = loadFont("Raleway-Medium.ttf")
   
   star = loadImage("star.png");
@@ -256,6 +256,7 @@ function showResult() {
   fill(255);
   textSize(75);
   textAlign(CENTER, CENTER);
+  textFont(questionFont);
   drawingContext.shadowColor = 'white';
   drawingContext.shadowBlur = 10;
   text("Your view of happiness is: " + result, width / 2, height / 2);
