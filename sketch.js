@@ -303,7 +303,6 @@ function showResult() {
   fill(255);
   textSize(75);
   textAlign(CENTER, CENTER);
-  textFont(questionFont);
   drawingContext.shadowColor = 'white';
   drawingContext.shadowBlur = 10;
   text("Your view of happiness is: " + result, width / 2, height / 2);
