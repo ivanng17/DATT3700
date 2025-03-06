@@ -183,15 +183,17 @@ function keyPressed() {
   }
 }
 
-
-function showTitle() {
-  // Drawing background
+function makeBackground(){
   let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
   grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
   grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
   drawingContext.fillStyle = grad;
   rectMode(CORNER);
   rect(0, 0, width, height);
+}
+
+function showTitle() {
+  makeBackground();
 
   // Main title text
   textFont(questionFont);
@@ -226,13 +228,7 @@ function showTitle() {
 
 
 function showQuestion() {
-  //Create background
-  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
-  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
-  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
-  drawingContext.fillStyle = grad;
-  rectMode(CORNER);
-  rect(0, 0, width, height);
+  makeBackground();
 
   //Display the question
   textFont(questionFont);
@@ -266,14 +262,7 @@ function showResult() {
   let maxScore = 0;
   let result = "";
 
-  // Draw background
-  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
-  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
-  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
-  drawingContext.fillStyle = grad;
-  drawingContext.shadowBlur = 0;
-  rectMode(CORNER);
-  rect(0, 0, width, height);
+  makeBackground();
 
   //Display which value was prioritized the most by the user
   maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
@@ -303,21 +292,18 @@ function showResult() {
 }
 
 function showAnim() {
-  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
-  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
-  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
-  drawingContext.fillStyle = grad;
-  rectMode(CORNER);
-  rect(0, 0, width, height);
+
+  makeBackground();
   
-for (let i = 0; i < country.length; i++){
-  drawingContext.shadowColor = 'white';
-  drawingContext.shadowBlur = 10;
-  let starX = x[i];
-  let starY = y[i];
-  image(star, starX, starY, 10, 10);
-  drawingContext.shadowBlur = 0;
+  for (let i = 0; i < country.length; i++){
+    drawingContext.shadowColor = 'white';
+    drawingContext.shadowBlur = 10;
+    let starX = x[i];
+    let starY = y[i];
+    image(star, starX, starY, 10, 10);
+    drawingContext.shadowBlur = 0;
+  }
 }
-}
+
 
 
