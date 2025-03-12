@@ -2,6 +2,8 @@
 //Code based on examples from: https://p5js.org/reference/
 
 let table;
+let serial;
+let latestData = "";
 
 //Question array
 let questions = [
@@ -74,6 +76,10 @@ function setup() {
   //Setting window size
   createCanvas(1920, 1080);
   background(0);
+
+  serial = new p5.SerialPort();
+  serial.open('/dev/tty.usbmodem1101'); // ⚠️ Change this to your Arduino’s port!
+  serial.on('data', serialEvent); 
   
   //Getting the data from each column of the data set
   country = table.getColumn("Country");
@@ -111,6 +117,14 @@ function draw() {
   }
   else{
     showAnim();
+  }
+}
+
+function serialEvent() {
+  let inData = serial.readLine().trim(); // Read incoming serial data
+  if (inData.length > 0) {
+    latestData = inData;
+    handleSensorInput(latestData);
   }
 }
 
@@ -153,35 +167,26 @@ function mousePressed() {
 }
 
 
-function keyPressed() {
-  // If the user inputs a key at the title screen, go to the questions
-  if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState == 1)){
-    surveyState++;
-  }
-  
-  // If the user inputs a choice, add points to the specified category
-  if ((key == '1') && (currentQuestion < questions.length) && (surveyState == 2)){
-    wealthScore++;
-    currentQuestion++;
-  }
-  if ((key == '2') && (currentQuestion < questions.length) && (surveyState == 2)){
-    healthScore++;
-    currentQuestion++;
-  }
-  if ((key == '3') && (currentQuestion < questions.length) && (surveyState == 2)){
-    freedomScore++;
-    currentQuestion++;
-  }
-  if ((key == '4') && (currentQuestion < questions.length) && (surveyState == 2)){
-    generosityScore++;
-    currentQuestion++;
-  }
+function handleSensorInput(data) {
+  if (surveyState == 2 && currentQuestion < questions.length) {
+    if (data === '1') {
+      wealthScore++;
+    } else if (data === '2') {
+      healthScore++;
+    } else if (data === '3') {
+      freedomScore++;
+    } else if (data === '4') {
+      generosityScore++;
+    }
 
-  // If the user answers all the questions, go to the result screen
-  if (currentQuestion >= questions.length) {
-    surveyState++;
+    currentQuestion++;
+    
+    if (currentQuestion >= questions.length) {
+      surveyState++;
+    }
   }
 }
+
 
 function makeBackground(){
   let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
