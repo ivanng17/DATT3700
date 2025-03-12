@@ -124,17 +124,18 @@ function draw() {
 }
 
 function mousePressed() {
-  let closestStar = null;
-  let minDist = 15; // Click detection radius
+  if (surveyState > 3) {
+    let closestStar = null;
+    let minDist = 15; // Click detection radius
 
-  for (let i = 0; i < country.length; i++) {
-    let starX = x[i];
-    let starY = y[i];
-    let d = dist(mouseX, mouseY, starX, starY);
+    for (let i = 0; i < country.length; i++) {
+      let starX = x[i];
+      let starY = y[i];
+      let d = dist(mouseX, mouseY, starX, starY);
 
-    if (d < minDist) {
-      closestStar = i;
-      minDist = d;
+      if (d < minDist) {
+        closestStar = i;
+        minDist = d;
     }
   }
 
@@ -157,6 +158,7 @@ function mousePressed() {
   } else {
     infoBox.hide();
   }
+}
 }
 
 
