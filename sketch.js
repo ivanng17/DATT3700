@@ -84,15 +84,24 @@ function setup() {
   x = table.getColumn("x");
   y = table.getColumn("y");
   
-  infoBox = createDiv('');
-  infoBox.style('position', 'absolute');
-  infoBox.style('background', 'rgba(0, 0, 0, 0.7)');
-  infoBox.style('color', 'white');
-  infoBox.style('padding', '10px');
-  infoBox.style('border-radius', '5px');
-  infoBox.style('font-family', 'Arial, sans-serif');
-  infoBox.hide(); 
+infoBox = createDiv('');
+infoBox.style('position', 'absolute');
+infoBox.style('background', 'rgba(0, 0, 0, 0.7)');
+infoBox.style('color', 'white');
+infoBox.style('padding', '10px');
+infoBox.style('border-radius', '5px');
+infoBox.style('font-family', 'Arial, sans-serif');
+infoBox.hide(); 
 
+  
+  //testing arrays
+/*
+  print(country)
+  print(wealth)
+  print(health)
+  print(freedom)
+  print(generosity)
+*/
 }
 
 
@@ -115,7 +124,7 @@ function draw() {
 }
 
 function mousePressed() {
-  if (surveyState > 3){
+  if (surveyState > 3) {
     let closestStar = null;
     let minDist = 15; // Click detection radius
 
@@ -127,29 +136,29 @@ function mousePressed() {
       if (d < minDist) {
         closestStar = i;
         minDist = d;
-      }
-    }
-
-    if (closestStar !== null) {
-      let countryName = country[closestStar];
-      let countryHealth = health[closestStar];
-      let countryWealth = wealth[closestStar];
-      let countryFreedom = freedom[closestStar];
-      let countryGenerosity = generosity[closestStar];
-
-      infoBox.html(`
-        <strong>${countryName}</strong><br>
-        Health: ${countryHealth}<br>
-        Wealth: ${countryWealth}<br>
-        Freedom: ${countryFreedom}<br>
-        Generosity: ${countryGenerosity}
-      `);
-      infoBox.position(mouseX + 10, mouseY + 10);
-      infoBox.show();
-    } else {
-      infoBox.hide();
     }
   }
+
+  if (closestStar !== null) {
+    let countryName = country[closestStar];
+    let countryHealth = health[closestStar];
+    let countryWealth = wealth[closestStar];
+    let countryFreedom = freedom[closestStar];
+    let countryGenerosity = generosity[closestStar];
+
+    infoBox.html(`
+      <strong>${countryName}</strong><br>
+      Health: ${countryHealth}<br>
+      Wealth: ${countryWealth}<br>
+      Freedom: ${countryFreedom}<br>
+      Generosity: ${countryGenerosity}
+    `);
+    infoBox.position(mouseX + 10, mouseY + 10);
+    infoBox.show();
+  } else {
+    infoBox.hide();
+  }
+}
 }
 
 
@@ -183,17 +192,15 @@ function keyPressed() {
   }
 }
 
-function makeBackground(){
+
+function showTitle() {
+  // Drawing background
   let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
   grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
   grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
   drawingContext.fillStyle = grad;
   rectMode(CORNER);
   rect(0, 0, width, height);
-}
-
-function showTitle() {
-  makeBackground();
 
   // Main title text
   textFont(questionFont);
@@ -228,7 +235,13 @@ function showTitle() {
 
 
 function showQuestion() {
-  makeBackground();
+  //Create background
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
 
   //Display the question
   textFont(questionFont);
@@ -262,7 +275,14 @@ function showResult() {
   let maxScore = 0;
   let result = "";
 
-  makeBackground();
+  // Draw background
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  drawingContext.shadowBlur = 0;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
 
   //Display which value was prioritized the most by the user
   maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
@@ -292,17 +312,21 @@ function showResult() {
 }
 
 function showAnim() {
-
-  makeBackground();
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
   
-  for (let i = 0; i < country.length; i++){
-    drawingContext.shadowColor = 'white';
-    drawingContext.shadowBlur = 10;
-    let starX = x[i];
-    let starY = y[i];
-    image(star, starX, starY, 10, 10);
-    drawingContext.shadowBlur = 0;
-  }
+for (let i = 0; i < country.length; i++){
+  drawingContext.shadowColor = 'white';
+  drawingContext.shadowBlur = 10;
+  let starX = x[i];
+  let starY = y[i];
+  image(star, starX, starY, 10, 10);
+  drawingContext.shadowBlur = 0;
+}
 }
 
 
