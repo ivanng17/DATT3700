@@ -13,7 +13,7 @@ let questions = [
     answers: ["Success is measured by financial security.", "Good health is the foundation of happiness.", "Life is about experiencing everything.", "Helping others is what truly fulfills me."],
     points: ["Wealth", "Health", "Freedom", "Generosity"]
   },
-  { q: "If you could have one of the following, \n which would you choose?", 
+  { q: "If you could have one of the following, \nwhich would you choose?", 
     answers: ["A million dollars.", "Perfect health for life.", "The ability to go anywhere, anytime.", "The power to end poverty."],
     points: ["Wealth", "Health", "Freedom", "Generosity"]
   },
