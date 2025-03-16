@@ -219,7 +219,7 @@ function showTitle() {
   textAlign(CENTER, CENTER);
   drawingContext.shadowColor = 'white';
   drawingContext.shadowBlur = 10;
-  text("Press any key to begin", width / 2, height / 2 + height / 4);
+  text("Place your hand over a beacon to begin", width / 2, height / 2 + height / 4);
   drawingContext.shadowBlur = 0;
   
   // Credits text
