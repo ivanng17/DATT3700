@@ -51,14 +51,14 @@ let questions = [
   }
 ];
 
-//Initializing variables
-let currentQuestion = 0;
+//Initializing variables (currentquestion is -1 because the code is weird)
+let currentQuestion = -1;
 let wealthScore = 0;
 let healthScore = 0;
 let freedomScore = 0;
 let generosityScore = 0;
 let surveyState = 1;
-
+ 
 function preload(){
   // Loading the data from the world happiness report
   table = loadTable("dataset.csv", "csv", "header");
@@ -66,8 +66,14 @@ function preload(){
   //Loading fonts
   questionFont = loadFont("CinzelDecorative-Regular.ttf")
   answerFont = loadFont("Raleway-Medium.ttf")
-  
+
+  //loading images
   star = loadImage("star.png");
+
+  wealthImage = loadImage("wealth.png");
+  healthImage = loadImage("health.png");
+  freedomImage = loadImage("freedom.png");
+  generosityImage = loadImage("generosity.png");
 }
 
 function setup() {
@@ -83,7 +89,8 @@ function setup() {
   generosity = table.getColumn("Generosity");
   x = table.getColumn("x");
   y = table.getColumn("y");
-  
+
+  //setting up the box that appears when you click on a star
 infoBox = createDiv('');
 infoBox.style('position', 'absolute');
 infoBox.style('background', 'rgba(0, 0, 0, 0.7)');
@@ -123,11 +130,23 @@ function draw() {
   }
 }
 
+function createBackground(){
+  //creates background
+  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
+  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
+  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
+  drawingContext.fillStyle = grad;
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+}
+
+
 function mousePressed() {
   if (surveyState > 3) {
     let closestStar = null;
     let minDist = 15; // Click detection radius
 
+    //check if star is near minimum required distance from mouse click
     for (let i = 0; i < country.length; i++) {
       let starX = x[i];
       let starY = y[i];
@@ -139,6 +158,7 @@ function mousePressed() {
     }
   }
 
+  // Show statistics on star click
   if (closestStar !== null) {
     let countryName = country[closestStar];
     let countryHealth = health[closestStar];
@@ -195,12 +215,7 @@ function keyPressed() {
 
 function showTitle() {
   // Drawing background
-  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
-  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
-  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
-  drawingContext.fillStyle = grad;
-  rectMode(CORNER);
-  rect(0, 0, width, height);
+  createBackground();
 
   // Main title text
   textFont(questionFont);
@@ -236,12 +251,7 @@ function showTitle() {
 
 function showQuestion() {
   //Create background
-  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
-  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
-  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
-  drawingContext.fillStyle = grad;
-  rectMode(CORNER);
-  rect(0, 0, width, height);
+  createBackground();
 
   //Display the question
   textFont(questionFont);
@@ -253,6 +263,22 @@ function showQuestion() {
   text(questions[currentQuestion].q, width / 2, 125);
   drawingContext.shadowBlur = 0;
 
+  //Progress bar
+  rectMode(CENTER);
+  noFill();
+  stroke(255);
+  rect(width / 2, height - 25, 1000, 25, 25);
+
+  rectMode(CORNER);
+  fill(255);
+  noStroke();
+  rect(width / 4 - 15, height - 32.5, 90 + 90 * currentQuestion, 15, 25);
+
+  textAlign(LEFT);
+  textSize(25);
+  text("Q#" + (currentQuestion + 1) + " / 11", width / 2 + 505, height - 32.5);
+
+
   //Displays the prompts for the users to choose
   for (let i = 0; i < 4; i++) {
     let x = width/2;
@@ -262,10 +288,55 @@ function showQuestion() {
     
     noStroke();
     rectMode(CENTER);
-    fill(255, 10);
-    rect(x, y, w, h, 50);
-    fill(255);
+
+    //Wealth
+    if (i == 0){
+      fill(0, 255, 0, 50);
+      stroke(0, 255, 0);
+      rect(x, y, w, h, 50);
+      noStroke();
+      imageMode(CENTER);
+      tint(255, 127);
+      image(wealthImage, x/2 + x/8, y, 35, 50)
+    }
+    //Health
+    if (i == 1){
+      fill(255, 0, 0, 50);
+      stroke(255, 0, 0);
+      rect(x, y, w, h, 50);
+      noStroke();
+      imageMode(CENTER);
+      tint(255, 127);
+      image(healthImage, x/2 + x/8, y, 50, 50);
+
+    }
+    //Freedom
+    if (i == 2){
+      fill(0, 0, 255, 50);
+      stroke(0, 0, 255);
+      rect(x, y, w, h, 50);
+      noStroke();
+      imageMode(CENTER);
+      tint(255, 127);
+      image(freedomImage, x/2 + x/8, y, 50, 30);
+
+    }
+    //Generosity
+    if (i == 3){
+      fill(255, 255, 255, 50);
+      stroke(255, 255, 255);
+      rect(x, y, w, h, 50);
+      noStroke();
+      imageMode(CENTER);
+      tint(255, 127);
+      image(generosityImage, x/2 + x/8, y, 50, 50);
+
+    }
+
+    noStroke();
     textSize(30);
+    fill(255);
+    textAlign(CENTER);
     textFont(answerFont);
     text(questions[currentQuestion].answers[i], x, y);
   }
@@ -276,13 +347,7 @@ function showResult() {
   let result = "";
 
   // Draw background
-  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
-  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
-  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
-  drawingContext.fillStyle = grad;
-  drawingContext.shadowBlur = 0;
-  rectMode(CORNER);
-  rect(0, 0, width, height);
+  createBackground();
 
   //Display which value was prioritized the most by the user
   maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
@@ -312,21 +377,18 @@ function showResult() {
 }
 
 function showAnim() {
-  let grad = drawingContext.createRadialGradient(width * 0.2, height * 0.2, 0, width * 0.8, height * 0.8, width * 0.9);
-  grad.addColorStop(0, color(121, 68, 154, 125)); // Add purple color at center
-  grad.addColorStop(1, color(0, 0, 0, 0)); // Fade to transparent
-  drawingContext.fillStyle = grad;
-  rectMode(CORNER);
-  rect(0, 0, width, height);
-  
-for (let i = 0; i < country.length; i++){
-  drawingContext.shadowColor = 'white';
-  drawingContext.shadowBlur = 10;
-  let starX = x[i];
-  let starY = y[i];
-  image(star, starX, starY, 10, 10);
-  drawingContext.shadowBlur = 0;
-}
+  createBackground();
+
+  //Show stars
+  for (let i = 0; i < country.length; i++){
+    drawingContext.shadowColor = 'white';
+    drawingContext.shadowBlur = 10;
+    let starX = x[i];
+    let starY = y[i];
+    tint(255, 255);
+    image(star, starX, starY, 10, 10);
+    drawingContext.shadowBlur = 0;
+  }
 }
 
 
