@@ -51,29 +51,50 @@ let questions = [
   }
 ];
 
-//Initializing variables (currentquestion is -1 because the code is weird)
+//Initializing variables
 let currentQuestion = -1;
 let wealthScore = 0;
 let healthScore = 0;
 let freedomScore = 0;
 let generosityScore = 0;
 let surveyState = 1;
- 
+let selectedCategory;
+let result = ""; // Global variable to store the chosen category
+let restartButton;
+
+let starOffsets = [];
+let twinkleSpeeds = [];
+let noiseOffsets = [];
+
+let stars = [];
+let countryData = [];
+let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 };
+let pointerX, pointerY;
+let touchInput = false;
+let STAR_COUNT;
+let STAR_SIZE = 3;
+let STAR_MIN_SCALE = 0.2;
+let OVERFLOW_THRESHOLD = 50;
+let scaleFactor;
+let selectedStar = null; // Stores the clicked star
+let infoBox;
+let infoBox2;
+
 function preload(){
   // Loading the data from the world happiness report
   table = loadTable("dataset.csv", "csv", "header");
-  
+   countryData = loadTable('2019.csv', 'csv', 'header');
   //Loading fonts
   questionFont = loadFont("CinzelDecorative-Regular.ttf")
   answerFont = loadFont("Raleway-Medium.ttf")
-
-  //loading images
+  
   star = loadImage("star.png");
-
+  
   wealthImage = loadImage("wealth.png");
   healthImage = loadImage("health.png");
   freedomImage = loadImage("freedom.png");
   generosityImage = loadImage("generosity.png");
+  
 }
 
 function setup() {
@@ -89,17 +110,6 @@ function setup() {
   generosity = table.getColumn("Generosity");
   x = table.getColumn("x");
   y = table.getColumn("y");
-
-  //setting up the box that appears when you click on a star
-infoBox = createDiv('');
-infoBox.style('position', 'absolute');
-infoBox.style('background', 'rgba(0, 0, 0, 0.7)');
-infoBox.style('color', 'white');
-infoBox.style('padding', '10px');
-infoBox.style('border-radius', '5px');
-infoBox.style('font-family', 'Arial, sans-serif');
-infoBox.hide(); 
-
   
   //testing arrays
 /*
@@ -109,6 +119,48 @@ infoBox.hide();
   print(freedom)
   print(generosity)
 */
+  
+    for (let i = 0; i < country.length; i++) {
+    starOffsets.push(createVector(random(-2, 2), random(-2, 2))); // Small movement offsets
+    twinkleSpeeds.push(random(0.01, 0.05)); // Twinkle speed variation
+    noiseOffsets.push(random(1000)); // Unique Perlin noise seed for each star
+  }
+  
+   createCanvas(windowWidth, windowHeight);
+    STAR_COUNT = (width + height) / 8; 
+    scaleFactor = window.devicePixelRatio || 1;
+  
+   infoBox = createDiv('').style('display', 'none')
+        .style('position', 'absolute')
+        .style('background', 'rgba(0, 0, 0, 0.7)')
+        .style('color', 'white')
+        .style('padding', '10px')
+        .style('border-radius', '5px')
+        .style('font-family', 'Arial, sans-serif');
+  
+  infoBox2 = createDiv('').style('display', 'none')
+        .style('position', 'absolute')
+        .style('background', 'rgba(0, 0, 0, 0.7)')
+        .style('color', 'white')
+        .style('padding', '10px')
+        .style('border-radius', '5px')
+        .style('font-family', 'Arial, sans-serif');
+  
+    generateStars();
+  
+  // Create Restart Button
+     restartButton = createButton('Restart');
+    restartButton.position(20, 20);
+    restartButton.mousePressed(goToTitle);
+  
+  // Style the button
+restartButton.style('background-color', 'black');  
+restartButton.style('color', 'white');            
+//restartButton.style('padding', '10px 20px');      
+restartButton.style('border', '2px solid white'); 
+restartButton.style('border-radius', '5px');      
+restartButton.hide(); 
+
 }
 
 
@@ -118,15 +170,19 @@ function draw() {
   // Chooses which state is being displayed on the website
   if (surveyState == 1){
     showTitle();
+    restartButton.hide(); 
   }
   else if (surveyState == 2){
     showQuestion();
+    restartButton.hide();
   }
   else if (surveyState == 3){
     showResult();
+    restartButton.hide();
   }
   else{
     showAnim();
+    restartButton.show();
   }
 }
 
@@ -138,15 +194,15 @@ function createBackground(){
   drawingContext.fillStyle = grad;
   rectMode(CORNER);
   rect(0, 0, width, height);
+  
+  drawingContext.shadowBlur = 0;
 }
-
 
 function mousePressed() {
   if (surveyState > 3) {
     let closestStar = null;
     let minDist = 15; // Click detection radius
 
-    //check if star is near minimum required distance from mouse click
     for (let i = 0; i < country.length; i++) {
       let starX = x[i];
       let starY = y[i];
@@ -158,7 +214,6 @@ function mousePressed() {
     }
   }
 
-  // Show statistics on star click
   if (closestStar !== null) {
     let countryName = country[closestStar];
     let countryHealth = health[closestStar];
@@ -180,7 +235,6 @@ function mousePressed() {
   }
 }
 }
-
 
 function keyPressed() {
   // If the user inputs a key at the title screen, go to the questions
@@ -210,13 +264,18 @@ function keyPressed() {
   if (currentQuestion >= questions.length) {
     surveyState++;
   }
+  
 }
 
+let titleDisplayed = false; 
 
 function showTitle() {
+  drawingContext.shadowBlur = 0;
+  noStroke();
+  
   // Drawing background
   createBackground();
-
+  
   // Main title text
   textFont(questionFont);
   textSize(100);
@@ -246,6 +305,7 @@ function showTitle() {
   drawingContext.shadowBlur = 10;
   text("Created by: Team Red \n Fuad, Luca, Rabiha, Miaoshu, Tessa & Ivan", width / 2, height / 2 + height / 4 * 1.75);
   drawingContext.shadowBlur = 0;
+ 
 }
 
 
@@ -344,8 +404,7 @@ function showQuestion() {
 
 function showResult() {
   let maxScore = 0;
-  let result = "";
-
+//  let result = "";
   // Draw background
   createBackground();
 
@@ -377,19 +436,256 @@ function showResult() {
 }
 
 function showAnim() {
-  createBackground();
+    background(0);
+  
+    updateStars();
+    renderStars();
 
-  //Show stars
-  for (let i = 0; i < country.length; i++){
-    drawingContext.shadowColor = 'white';
-    drawingContext.shadowBlur = 10;
-    let starX = x[i];
-    let starY = y[i];
-    tint(255, 255);
-    image(star, starX, starY, 10, 10);
-    drawingContext.shadowBlur = 0;
-  }
+    
+    if (selectedStar) {
+        displayStats(selectedStar);
+    }
 }
 
+//function to get top 10
 
+function getTop10Countries(selectedCategoryIndex) {
+  
+     let maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
+  
+  if (maxScore === wealthScore) {
+    selectedCategory = wealth;
+  } else if (maxScore === healthScore) {
+    selectedCategory = health;
+  } else if (maxScore === freedomScore) {
+    selectedCategory = freedom;
+  } else if (maxScore === generosityScore) {
+    selectedCategory = generosity;
+  }
 
+  //array of objects containing the country index and its value in the selected category
+  
+  let indexedValues = [];
+  for (let i = 0; i < selectedCategory.length; i++) {
+    indexedValues.push({
+      index: i,
+      name: country[i], 
+      value: float(selectedCategory[i]),
+    });
+  }
+
+  //sort by descending value
+  indexedValues.sort((a, b) => b.value - a.value);
+
+  //get top 10 values
+  return indexedValues.slice(0, 10);
+  
+
+}
+
+//star animation functions 
+
+function generateStars() {
+    stars = [];
+    for (let i = 0; i < countryData.getRowCount(); i++) {
+        let country = countryData.getRow(i);
+        stars.push({
+            x: random(width),
+            y: random(height),
+            z: STAR_MIN_SCALE + random(1 - STAR_MIN_SCALE),
+            country: {
+                name: country.getString(0),
+                health: country.getNum(1),
+                wealth: country.getNum(2),
+                freedom: country.getNum(3),
+                generosity: country.getNum(4)
+            }
+        });
+    }
+}
+
+function updateStars() {
+    velocity.tx *= 0.65;
+    velocity.ty *= 0.65;
+    velocity.x += (velocity.tx - velocity.x) * 0.8;
+    velocity.y += (velocity.ty - velocity.y) * 0.8;
+
+    for (let star of stars) {
+        star.x += velocity.x * star.z;
+        star.y += velocity.y * star.z;
+
+        star.x += (star.x - width / 2) * velocity.z * star.z;
+        star.y += (star.y - height / 2) * velocity.z * star.z;
+        star.z += velocity.z;
+
+        if (star.x < -OVERFLOW_THRESHOLD || star.x > width + OVERFLOW_THRESHOLD || 
+            star.y < -OVERFLOW_THRESHOLD || star.y > height + OVERFLOW_THRESHOLD) {
+            recycleStar(star);
+        }
+    }
+}
+
+function recycleStar(star) {
+  
+  let safeWidth = width > 0 ? width : windowWidth;
+    let safeHeight = height > 0 ? height : windowHeight;
+  
+   star.z = STAR_MIN_SCALE + random(1 - STAR_MIN_SCALE);
+    
+    let newX = random(safeWidth);
+    let newY = random(safeHeight);
+    
+    //fallback if width/height is not valid
+    if (isNaN(newX) || isNaN(newY)) {
+        console.warn('Width or height is invalid, using default size.');
+        newX = random(1920); 
+        newY = random(1080); 
+    }
+    
+  
+  star.x = random(width > 0 ? width : windowWidth);
+star.y = random(height > 0 ? height : windowHeight);
+}
+
+function renderStars() {
+  
+   let top10 = getTop10Countries(selectedCategory); //get top 10 
+
+    for (let star of stars) {
+       let isTop10 = top10.some(top => top.name === star.country.name);
+        let starSize = isTop10 ? STAR_SIZE * 3 : STAR_SIZE * star.z * scaleFactor; // Larger for top 10
+        let brightness = isTop10 ? 255 : 100; //brighter for top 10
+        let alpha = isTop10 ? 1 : (0.5 + 0.5 * random()); 
+
+        //glow effect for top 10 stars
+        if (isTop10) {
+           noStroke();
+    for (let i = 5; i > 0; i--) {
+        let glowAlpha = map(i, 1, 5, 25, 2); //glow layers
+        fill(255, glowAlpha);
+        ellipse(star.x, star.y, starSize * 1.5 * i, starSize * 1.5 * i);
+    }
+        }
+
+        //main star rendering
+        stroke(255, 255, 255, alpha * 255);
+        strokeWeight(starSize);
+        line(star.x, star.y, star.x - velocity.x * 2, star.y - velocity.y * 2);
+    }
+}
+
+function mouseMoved() {
+  
+  if (surveyState > 3) {
+        touchInput = false;
+        movePointer(mouseX, mouseY);
+        let foundStar = null;
+
+        for (let star of stars) {
+            let d = dist(mouseX, mouseY, star.x, star.y);
+            if (d < STAR_SIZE * 3) {
+                foundStar = star;
+                break;
+            }
+        }
+
+        if (foundStar) {
+            infoBox2.html(`
+                <strong>${foundStar.country.name}</strong><br>
+            `).style('display', 'block').position(mouseX + 10, mouseY + 10);
+        } else {
+            if (infoBox2) {
+                infoBox2.hide();  
+            }
+        }
+    } else {
+        if (infoBox2) {
+            infoBox2.hide(); 
+        }
+    }
+}
+
+function movePointer(x, y) {
+    if (typeof pointerX === 'number' && typeof pointerY === 'number') {
+        let ox = x - pointerX;
+        let oy = y - pointerY;
+        velocity.tx += (ox / 8 * scaleFactor) * (touchInput ? 1 : -1);
+        velocity.ty += (oy / 8 * scaleFactor) * (touchInput ? 1 : -1);
+    }
+    pointerX = x;
+    pointerY = y;
+}
+
+function mousePressed() {
+    for (let star of stars) {
+        let d = dist(mouseX, mouseY, star.x, star.y);
+        if (d < STAR_SIZE * 3) {
+            selectedStar = star;
+            return;
+        }
+    }
+    //remove the stats display if click outside
+    selectedStar = null;
+}
+
+function displayStats(star) {
+    let panelX = constrain(40, 10, width - 250); 
+    let panelY = constrain(50, 10, height - 200);
+    
+    strokeWeight(2);
+    stroke(200);
+    
+    fill(0, 200); //semi-transparent background
+    rect(panelX, panelY, 230, 160, 10); 
+
+    noStroke();
+    fill(255);
+    textSize(12);
+    textAlign(LEFT, TOP);
+    text(`Country: ${star.country.name}`, panelX + 10, panelY + 10);
+
+    let stats = [
+        { label: "Health", value: star.country.health, color: color(207, 89, 89) },
+        { label: "Wealth", value: star.country.wealth, color: color(95, 180, 95) },
+        { label: "Freedom", value: star.country.freedom, color: color(63, 135, 202) },
+        { label: "Generosity", value: star.country.generosity, color: color(214, 229, 234) }
+    ];
+
+    let maxValue = max(stats.map(s => s.value));
+    let barWidth = 100; 
+    let barHeight = 10; 
+
+    for (let i = 0; i < stats.length; i++) {
+        let stat = stats[i];
+        let barLength = map(stat.value, 0, maxValue, 0, barWidth);
+
+     
+        fill(255);
+        text(stat.label, panelX + 10, panelY + 35 + i * 25);
+
+       
+        fill(stat.color);
+        rect(panelX + 80, panelY + 35 + i * 25, barLength, barHeight, 3);
+    }
+}
+
+function goToTitle() {
+    //resetting variables
+    surveyState = 1;  
+    currentQuestion = -1; 
+    wealthScore = 0;
+    healthScore = 0;
+    freedomScore = 0;
+    generosityScore = 0;
+    selectedCategory = null;
+    result = "";  
+    selectedStar = null;
+
+    //hide any existing info box
+    if (infoBox) {
+        infoBox.hide();
+    }
+
+    restartButton.hide();
+  
+}
