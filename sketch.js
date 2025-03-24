@@ -88,6 +88,11 @@ function preload(){
   answerFont = loadFont("Raleway-Medium.ttf")
   
   star = loadImage("star.png");
+
+  sound1 = loadSound("Sound 1.mp3");
+  sound2 = loadSound("Sound 2.mp3");
+  sound3 = loadSound("Sound 3.mp3");
+  sound4 = loadSound("Sound 4.mp3");
   
   wealthImage = loadImage("wealth.png");
   healthImage = loadImage("health.png");
