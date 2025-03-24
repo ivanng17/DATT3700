@@ -172,7 +172,7 @@ restartButton.hide();
 
 function draw() {
   background(0);
-  
+  backgroundMusic.play();
   // Chooses which state is being displayed on the website
   if (surveyState == 1){
     showTitle();
