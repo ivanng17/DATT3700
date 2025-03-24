@@ -1,4 +1,4 @@
-1//Data from: https://worldhappiness.report/ed/2024/#appendices-and-data
+//Data from: https://worldhappiness.report/ed/2024/#appendices-and-data
 //Code based on examples from: https://p5js.org/reference/
 
 let table;
