@@ -94,8 +94,14 @@ function preload(){
   freedomSound = loadSound("Sound 3.mp3");
   generositySound = loadSound("Sound 4.mp3");
   starSound = loadSound("starSound.mp3");
+
+  healthSound.setVolume(0.7);
+  wealthSound.setVolume(0.4);
+  freedomSound.setVolume(0.7);
+  generositySound.setVolume(0.4);
+  starSound.setVolume(0.2);
+
   backgroundMusic = loadSound("background.mp3");
-  
 
   wealthImage = loadImage("wealth.png");
   healthImage = loadImage("health.png");
@@ -120,6 +126,8 @@ function setup() {
   x = table.getColumn("x");
   y = table.getColumn("y");
   
+
+
   //testing arrays
 /*
   print(country)
