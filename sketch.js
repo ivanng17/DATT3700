@@ -347,7 +347,7 @@ function showQuestion() {
   rectMode(CORNER);
   fill(255);
   noStroke();
-  rect(width / 4 - width / 16, height - 32.5, 90 + 90 * currentQuestion, 15, 25);
+  rect(width / 4 - 15, height - 32.5, 90 + 90 * currentQuestion, 15, 25);
 
   textAlign(LEFT);
   textSize(25);
@@ -372,7 +372,7 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(wealthImage, x/2 + x/16, y, 35, 50)
+      image(wealthImage, x/2 + x/8, y, 35, 50)
     }
     //Health
     if (i == 1){
@@ -382,7 +382,7 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(healthImage, x/2 + x/16, y, 50, 50);
+      image(healthImage, x/2 + x/8, y, 50, 50);
 
     }
     //Freedom
@@ -393,7 +393,7 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(freedomImage, x/2 + x/16, y, 50, 30);
+      image(freedomImage, x/2 + x/8, y, 50, 30);
 
     }
     //Generosity
@@ -404,7 +404,7 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(generosityImage, x/2 + x/16, y, 50, 50);
+      image(generosityImage, x/2 + x/8, y, 50, 50);
 
     }
 
