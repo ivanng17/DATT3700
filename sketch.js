@@ -94,6 +94,7 @@ function preload(){
   freedomSound = loadSound("Sound 3.mp3");
   generositySound = loadSound("Sound 4.mp3");
   starSound = loadSound("starSound.mp3");
+  backgroundMusic = loadSound("background.mp3");
   
   wealthImage = loadImage("wealth.png");
   healthImage = loadImage("health.png");
@@ -214,7 +215,6 @@ function mousePressed() {
       if (d < minDist) {
         closestStar = i;
         minDist = d;
-        starSound.play();
     }
   }
 
@@ -224,24 +224,13 @@ function mousePressed() {
     let countryWealth = wealth[closestStar];
     let countryFreedom = freedom[closestStar];
     let countryGenerosity = generosity[closestStar];
-
-    infoBox.html(`
-      <strong>${countryName}</strong><br>
-      Health: ${countryHealth}<br>
-      Wealth: ${countryWealth}<br>
-      Freedom: ${countryFreedom}<br>
-      Generosity: ${countryGenerosity}
-    `);
-    infoBox.position(mouseX + 10, mouseY + 10);
-    infoBox.show();
-  } else {
-    infoBox.hide();
   }
 }
     for (let star of stars) {
         let d = dist(mouseX, mouseY, star.x, star.y);
         if (d < STAR_SIZE * 3) {
             selectedStar = star;
+            starSound.play();
             return;
         }
     }
