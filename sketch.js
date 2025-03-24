@@ -451,8 +451,27 @@ function showResult() {
   drawingContext.shadowBlur = 0;
 }
 
+function drawSky() {
+  let c1 = color(10, 10, 30);  // Dark blue
+  let c2 = color(40, 0, 50);   // Dark purple
+  let c3 = color(0, 50, 40);   // Dark green
+  
+  // Create gradient
+  for (let y = 0; y < height; y++) {
+    let inter = map(y, 0, height, 0, 1);
+    let col;
+    if (y < height / 2) {
+      col = lerpColor(c1, c2, inter * 2);
+    } else {
+      col = lerpColor(c2, c3, (inter - 0.5) * 2);
+    }
+    stroke(col);
+    line(0, y, width, y);
+  } 
+}
+
 function showAnim() {
-    background(0);
+    drawSky();
   
     updateStars();
     renderStars();
