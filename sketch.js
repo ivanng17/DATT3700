@@ -1,4 +1,4 @@
-//Data from: https://worldhappiness.report/ed/2024/#appendices-and-data
+1//Data from: https://worldhappiness.report/ed/2024/#appendices-and-data
 //Code based on examples from: https://p5js.org/reference/
 
 let table;
@@ -203,6 +203,7 @@ function createBackground(){
 
 function mousePressed() {
   if (surveyState > 3) {
+    starSound.play();
     let closestStar = null;
     let minDist = 15; // Click detection radius
 
