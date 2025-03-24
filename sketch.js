@@ -1,4 +1,4 @@
-1//Data from: https://worldhappiness.report/ed/2024/#appendices-and-data
+//Data from: https://worldhappiness.report/ed/2024/#appendices-and-data
 //Code based on examples from: https://p5js.org/reference/
 
 let table;
@@ -203,7 +203,6 @@ function createBackground(){
 
 function mousePressed() {
   if (surveyState > 3) {
-    starSound.play();
     let closestStar = null;
     let minDist = 15; // Click detection radius
 
@@ -215,6 +214,7 @@ function mousePressed() {
       if (d < minDist) {
         closestStar = i;
         minDist = d;
+        starSound.play();
     }
   }
 
@@ -238,6 +238,15 @@ function mousePressed() {
     infoBox.hide();
   }
 }
+    for (let star of stars) {
+        let d = dist(mouseX, mouseY, star.x, star.y);
+        if (d < STAR_SIZE * 3) {
+            selectedStar = star;
+            return;
+        }
+    }
+    //remove the stats display if click outside
+    selectedStar = null;
 }
 
 function keyPressed() {
@@ -627,17 +636,7 @@ function movePointer(x, y) {
     pointerY = y;
 }
 
-function mousePressed() {
-    for (let star of stars) {
-        let d = dist(mouseX, mouseY, star.x, star.y);
-        if (d < STAR_SIZE * 3) {
-            selectedStar = star;
-            return;
-        }
-    }
-    //remove the stats display if click outside
-    selectedStar = null;
-}
+
 
 function displayStats(star) {
     let panelX = constrain(40, 10, width - 250); 
