@@ -96,18 +96,21 @@ function preload(){
   starSound = loadSound("starSound.mp3");
   backgroundMusic = loadSound("background.mp3");
   
+
   wealthImage = loadImage("wealth.png");
   healthImage = loadImage("health.png");
   freedomImage = loadImage("freedom.png");
   generosityImage = loadImage("generosity.png");
-  
+
 }
 
 function setup() {
   //Setting window size
   createCanvas(1920, 1080);
+  userStartAudio(); // Call userStartAudio()
+  backgroundMusic.loop(); // Play the sound
   background(0);
-  backgroundMusic.play();
+
   //Getting the data from each column of the data set
   country = table.getColumn("Country");
   wealth = table.getColumn("Wealth");
