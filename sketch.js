@@ -248,18 +248,22 @@ function keyPressed() {
   if ((key == '1') && (currentQuestion < questions.length) && (surveyState == 2)){
     wealthScore++;
     currentQuestion++;
+    wealthSound.play();
   }
   if ((key == '2') && (currentQuestion < questions.length) && (surveyState == 2)){
     healthScore++;
     currentQuestion++;
+    healthSound.play();
   }
   if ((key == '3') && (currentQuestion < questions.length) && (surveyState == 2)){
     freedomScore++;
     currentQuestion++;
+    freedomSound.play();
   }
   if ((key == '4') && (currentQuestion < questions.length) && (surveyState == 2)){
     generosityScore++;
     currentQuestion++;
+    generositySound.play();
   }
 
   // If the user answers all the questions, go to the result screen
