@@ -67,7 +67,6 @@ let twinkleSpeeds = [];
 let noiseOffsets = [];
 
 let stars = [];
-let countryData = [];
 let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 };
 let pointerX, pointerY;
 let touchInput = false;
