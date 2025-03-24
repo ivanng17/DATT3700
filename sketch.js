@@ -93,6 +93,7 @@ function preload(){
   wealthSound = loadSound("Sound 2.mp3");
   freedomSound = loadSound("Sound 3.mp3");
   generositySound = loadSound("Sound 4.mp3");
+  starSound = loadSound("starSound.mp3");
   
   wealthImage = loadImage("wealth.png");
   healthImage = loadImage("health.png");
