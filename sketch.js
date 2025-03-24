@@ -107,7 +107,7 @@ function setup() {
   //Setting window size
   createCanvas(1920, 1080);
   background(0);
-  
+  backgroundMusic.play();
   //Getting the data from each column of the data set
   country = table.getColumn("Country");
   wealth = table.getColumn("Wealth");
@@ -172,7 +172,7 @@ restartButton.hide();
 
 function draw() {
   background(0);
-  backgroundMusic.play();
+
   // Chooses which state is being displayed on the website
   if (surveyState == 1){
     showTitle();
