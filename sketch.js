@@ -235,7 +235,7 @@ function mousePressed() {
     let countryFreedom = freedom[closestStar];
     let countryGenerosity = generosity[closestStar];
   }
-}
+
     for (let star of stars) {
         let d = dist(mouseX, mouseY, star.x, star.y);
         if (d < STAR_SIZE * 3) {
@@ -244,8 +244,10 @@ function mousePressed() {
             return;
         }
     }
+    
     //remove the stats display if click outside
     selectedStar = null;
+  }
 }
 
 function keyPressed() {
