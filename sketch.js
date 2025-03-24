@@ -83,7 +83,6 @@ let infoBox2;
 function preload(){
   // Loading the data from the world happiness report
   table = loadTable("dataset.csv", "csv", "header");
-   countryData = loadTable('2019.csv', 'csv', 'header');
   //Loading fonts
   questionFont = loadFont("CinzelDecorative-Regular.ttf")
   answerFont = loadFont("Raleway-Medium.ttf")
@@ -194,8 +193,6 @@ function createBackground(){
   drawingContext.fillStyle = grad;
   rectMode(CORNER);
   rect(0, 0, width, height);
-  
-  drawingContext.shadowBlur = 0;
 }
 
 function mousePressed() {
@@ -270,12 +267,10 @@ function keyPressed() {
 let titleDisplayed = false; 
 
 function showTitle() {
-  drawingContext.shadowBlur = 0;
   noStroke();
-  
   // Drawing background
   createBackground();
-  
+
   // Main title text
   textFont(questionFont);
   textSize(100);
@@ -405,6 +400,7 @@ function showQuestion() {
 function showResult() {
   let maxScore = 0;
 //  let result = "";
+
   // Draw background
   createBackground();
 
@@ -447,9 +443,9 @@ function showAnim() {
     }
 }
 
-//function to get top 10
+//function to get top 15
 
-function getTop10Countries(selectedCategoryIndex) {
+function getTop15Countries(selectedCategoryIndex) {
   
      let maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
   
@@ -476,9 +472,13 @@ function getTop10Countries(selectedCategoryIndex) {
 
   //sort by descending value
   indexedValues.sort((a, b) => b.value - a.value);
+  
+  const top15 = indexedValues.slice(0, 15);
+  
+   // console.log("Top 10 countries:", top10.map(item => `${item.name}: ${item.value}`));
 
   //get top 10 values
-  return indexedValues.slice(0, 10);
+  return top15;
   
 
 }
@@ -487,8 +487,8 @@ function getTop10Countries(selectedCategoryIndex) {
 
 function generateStars() {
     stars = [];
-    for (let i = 0; i < countryData.getRowCount(); i++) {
-        let country = countryData.getRow(i);
+    for (let i = 0; i < table.getRowCount(); i++) {
+        let country = table.getRow(i);
         stars.push({
             x: random(width),
             y: random(height),
@@ -549,16 +549,16 @@ star.y = random(height > 0 ? height : windowHeight);
 
 function renderStars() {
   
-   let top10 = getTop10Countries(selectedCategory); //get top 10 
+   let top15 = getTop15Countries(selectedCategory); //get top 10 
 
     for (let star of stars) {
-       let isTop10 = top10.some(top => top.name === star.country.name);
-        let starSize = isTop10 ? STAR_SIZE * 3 : STAR_SIZE * star.z * scaleFactor; // Larger for top 10
-        let brightness = isTop10 ? 255 : 100; //brighter for top 10
-        let alpha = isTop10 ? 1 : (0.5 + 0.5 * random()); 
+       let isTop15 = top15.some(top => top.name === star.country.name);
+        let starSize = isTop15 ? STAR_SIZE * 3 : STAR_SIZE * star.z * scaleFactor; // Larger for top 10
+        let brightness = isTop15 ? 255 : 100; //brighter for top 10
+        let alpha = isTop15 ? 1 : (0.5 + 0.5 * random()); 
 
         //glow effect for top 10 stars
-        if (isTop10) {
+        if (isTop15) {
            noStroke();
     for (let i = 5; i > 0; i--) {
         let glowAlpha = map(i, 1, 5, 25, 2); //glow layers
@@ -687,5 +687,4 @@ function goToTitle() {
     }
 
     restartButton.hide();
-  
 }
