@@ -46,7 +46,7 @@ let questions = [
     points: ["Wealth", "Health", "Freedom", "Generosity"]
   },
   { q: "Where would you prioritize govermental resources?", 
-    answers: ["Economic growth.", "Health care", "Protecting civil liberties", "Education and social programes"],
+    answers: ["Economic growth.", "Health care", "Protecting civil liberties", "Education and social programs"],
     points: ["Wealth", "Health", "Freedom", "Generosity"]
   }
 ];
@@ -145,7 +145,7 @@ function setup() {
     STAR_COUNT = (width + height) / 8; 
     scaleFactor = window.devicePixelRatio || 1;
   
-   infoBox = createDiv('').style('display', 'none')
+  infoBox = createDiv('').style('display', 'none')
         .style('position', 'absolute')
         .style('background', 'rgba(0, 0, 0, 0.7)')
         .style('color', 'white')
@@ -164,17 +164,17 @@ function setup() {
     generateStars();
   
   // Create Restart Button
-     restartButton = createButton('Restart');
-    restartButton.position(20, 20);
+    restartButton = createButton('Restart');
+    restartButton.position(width * 0.01, height * 0.0185);
     restartButton.mousePressed(goToTitle);
   
   // Style the button
-restartButton.style('background-color', 'black');  
-restartButton.style('color', 'white');            
-//restartButton.style('padding', '10px 20px');      
-restartButton.style('border', '2px solid white'); 
-restartButton.style('border-radius', '5px');      
-restartButton.hide(); 
+    restartButton.style('background-color', 'black');  
+    restartButton.style('color', 'white');            
+  //restartButton.style('padding', '10px 20px');      
+    restartButton.style('border', '2px solid white'); 
+    restartButton.style('border-radius', '5px');      
+    restartButton.hide(); 
 
 }
 
@@ -293,7 +293,7 @@ function showTitle() {
 
   // Main title text
   textFont(questionFont);
-  textSize(100);
+  textSize(width * 0.05);
   fill(255);
   textAlign(CENTER, CENTER);
   drawingContext.shadowColor = 'white';
@@ -303,7 +303,7 @@ function showTitle() {
   
   // Input prompt to start quiz text
   textFont(answerFont);
-  textSize(50);
+  textSize(width * 0.026);
   fill(255);
   textAlign(CENTER, CENTER);
   drawingContext.shadowColor = 'white';
@@ -313,7 +313,7 @@ function showTitle() {
   
   // Credits text
   textFont(answerFont);
-  textSize(20);
+  textSize(width * 0.01);
   fill(255);
   textAlign(CENTER, CENTER);
   drawingContext.shadowColor = 'white';
@@ -330,36 +330,36 @@ function showQuestion() {
 
   //Display the question
   textFont(questionFont);
-  textSize(50);
+  textSize(width * 0.026);
   fill(255);
   textAlign(CENTER, CENTER);
   drawingContext.shadowColor = 'white';
   drawingContext.shadowBlur = 5;
-  text(questions[currentQuestion].q, width / 2, 125);
+  text(questions[currentQuestion].q, width / 2, height * 0.115);
   drawingContext.shadowBlur = 0;
 
   //Progress bar
   rectMode(CENTER);
   noFill();
   stroke(255);
-  rect(width / 2, height - 25, 1000, 25, 25);
+  rect(width / 2, height - height * 0.023, width * 0.52, width * 0.013, height * 0.023);
 
   rectMode(CORNER);
   fill(255);
   noStroke();
-  rect(width / 4 - 15, height - 32.5, 90 + 90 * currentQuestion, 15, 25);
+  rect((width / 4) - width * 0.0078, height - height * 0.03, (width * 0.515) / questions.length + (width * 0.515)/questions.length * currentQuestion, width * 0.0078, height * 0.023);
 
   textAlign(LEFT);
-  textSize(25);
-  text("Q#" + (currentQuestion + 1) + " / 11", width / 2 + 505, height - 32.5);
+  textSize(width * 0.013);
+  text("Q#" + (currentQuestion + 1) + " / 11", width / 2 + width * 0.27, height - height * 0.03);
 
 
   //Displays the prompts for the users to choose
   for (let i = 0; i < 4; i++) {
     let x = width/2;
-    let y = 300 + i * 140;
-    let w = 800;
-    let h = 100;
+    let y = (height * 0.28) + (i * height * 0.13);
+    let w = width * 0.417;
+    let h = height * 0.09;
     
     noStroke();
     rectMode(CENTER);
@@ -372,7 +372,7 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(wealthImage, x/2 + x/8, y, 35, 50)
+      image(wealthImage, x/2 + x/8, y, width * 0.018, height * 0.046)
     }
     //Health
     if (i == 1){
@@ -382,7 +382,7 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(healthImage, x/2 + x/8, y, 50, 50);
+      image(healthImage, x/2 + x/8, y, width * 0.026, height * 0.046);
 
     }
     //Freedom
@@ -393,7 +393,7 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(freedomImage, x/2 + x/8, y, 50, 30);
+      image(freedomImage, x/2 + x/8, y, width * 0.026, height * 0.027);
 
     }
     //Generosity
@@ -404,12 +404,12 @@ function showQuestion() {
       noStroke();
       imageMode(CENTER);
       tint(255, 127);
-      image(generosityImage, x/2 + x/8, y, 50, 50);
+      image(generosityImage, x/2 + x/8, y, width * 0.026, height * 0.046);
 
     }
 
     noStroke();
-    textSize(30);
+    textSize(width * 0.015);
     fill(255);
     textAlign(CENTER);
     textFont(answerFont);
@@ -443,7 +443,7 @@ function showResult() {
   //Display the results
   noFill();
   fill(255);
-  textSize(75);
+  textSize(width * 0.039);
   textAlign(CENTER, CENTER);
   drawingContext.shadowColor = 'white';
   drawingContext.shadowBlur = 10;
@@ -472,11 +472,9 @@ function drawSky() {
 
 function showAnim() {
     drawSky();
-  
     updateStars();
     renderStars();
 
-    
     if (selectedStar) {
         displayStats(selectedStar);
     }
@@ -485,8 +483,7 @@ function showAnim() {
 //function to get top 15
 
 function getTop15Countries(selectedCategoryIndex) {
-  
-     let maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
+  let maxScore = max(wealthScore, healthScore, freedomScore, generosityScore);
   
   if (maxScore === wealthScore) {
     selectedCategory = wealth;
@@ -511,15 +508,12 @@ function getTop15Countries(selectedCategoryIndex) {
 
   //sort by descending value
   indexedValues.sort((a, b) => b.value - a.value);
-  
   const top15 = indexedValues.slice(0, 15);
-  
+
    // console.log("Top 10 countries:", top10.map(item => `${item.name}: ${item.value}`));
 
   //get top 10 values
   return top15;
-  
-
 }
 
 //star animation functions 
@@ -565,30 +559,28 @@ function updateStars() {
 }
 
 function recycleStar(star) {
-  
   let safeWidth = width > 0 ? width : windowWidth;
-    let safeHeight = height > 0 ? height : windowHeight;
+  let safeHeight = height > 0 ? height : windowHeight;
   
-   star.z = STAR_MIN_SCALE + random(1 - STAR_MIN_SCALE);
+  star.z = STAR_MIN_SCALE + random(1 - STAR_MIN_SCALE);
     
-    let newX = random(safeWidth);
-    let newY = random(safeHeight);
+  let newX = random(safeWidth);
+  let newY = random(safeHeight);
     
     //fallback if width/height is not valid
-    if (isNaN(newX) || isNaN(newY)) {
-        console.warn('Width or height is invalid, using default size.');
-        newX = random(1920); 
-        newY = random(1080); 
-    }
+  if (isNaN(newX) || isNaN(newY)) {
+    console.warn('Width or height is invalid, using default size.');
+      newX = random(1920); 
+      newY = random(1080); 
+  }
     
   
   star.x = random(width > 0 ? width : windowWidth);
-star.y = random(height > 0 ? height : windowHeight);
+  star.y = random(height > 0 ? height : windowHeight);
 }
 
 function renderStars() {
-  
-   let top15 = getTop15Countries(selectedCategory); //get top 10 
+    let top15 = getTop15Countries(selectedCategory); //get top 10 
 
     for (let star of stars) {
        let isTop15 = top15.some(top => top.name === star.country.name);
@@ -598,23 +590,22 @@ function renderStars() {
 
         //glow effect for top 10 stars
         if (isTop15) {
-           noStroke();
-    for (let i = 5; i > 0; i--) {
-        let glowAlpha = map(i, 1, 5, 25, 2); //glow layers
-        fill(255, glowAlpha);
-        ellipse(star.x, star.y, starSize * 1.5 * i, starSize * 1.5 * i);
-    }
+            noStroke();
+            for (let i = 5; i > 0; i--) {
+              let glowAlpha = map(i, 1, 5, 25, 2); //glow layers
+              fill(255, glowAlpha);
+              ellipse(star.x, star.y, starSize * 1.5 * i, starSize * 1.5 * i);
+            }
         }
 
         //main star rendering
-        stroke(255, 255, 255, alpha * 255);
-        strokeWeight(starSize);
-        line(star.x, star.y, star.x - velocity.x * 2, star.y - velocity.y * 2);
+      stroke(255, 255, 255, alpha * 255);
+      strokeWeight(starSize);
+      line(star.x, star.y, star.x - velocity.x * 2, star.y - velocity.y * 2);
     }
 }
 
 function mouseMoved() {
-  
   if (surveyState > 3) {
         touchInput = false;
         movePointer(mouseX, mouseY);
@@ -688,10 +679,8 @@ function displayStats(star) {
         let stat = stats[i];
         let barLength = map(stat.value, 0, maxValue, 0, barWidth);
 
-     
         fill(255);
         text(stat.label, panelX + 10, panelY + 35 + i * 25);
-
        
         fill(stat.color);
         rect(panelX + 80, panelY + 35 + i * 25, barLength, barHeight, 3);
