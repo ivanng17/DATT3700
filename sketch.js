@@ -351,7 +351,7 @@ function showQuestion() {
 
   textAlign(LEFT);
   textSize(width * 0.013);
-  text("Q#" + (currentQuestion + 1) + " / 11", width / 2 + width * 0.27, height - height * 0.03);
+  text("Q#" + (currentQuestion + 1) + " / 11", width / 2 + width * 0.265, height - height * 0.03);
 
 
   //Displays the prompts for the users to choose
