@@ -450,7 +450,10 @@ function showResult() {
   text("Your view of happiness is: " + result, width / 2, height / 2);
   textSize(width * 0.0195);
   textAlign(CENTER, CENTER);
-  text("Place your hand over the " + result + " beacon", width / 2, height / 2 + height / 3);
+  text("Use the mouse to navigate the constellation.", width / 2, height / 2 + height / 2.5);
+  textSize(width * 0.0195);
+  textAlign(CENTER, CENTER);
+  text("Place your hand over the " + result + " beacon to continue...", width / 2, height / 2 + height / 3);
   drawingContext.shadowBlur = 0;
 }
 
