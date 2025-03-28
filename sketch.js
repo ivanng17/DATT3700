@@ -448,6 +448,9 @@ function showResult() {
   drawingContext.shadowColor = 'white';
   drawingContext.shadowBlur = 10;
   text("Your view of happiness is: " + result, width / 2, height / 2);
+  textSize(width * 0.0195);
+  textAlign(CENTER, CENTER);
+  text("Place your hand over the " + result + " beacon", width / 2, height / 2 + height / 3);
   drawingContext.shadowBlur = 0;
 }
 
