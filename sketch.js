@@ -73,6 +73,7 @@ let STAR_COUNT;
 let STAR_SIZE = 3;
 let STAR_MIN_SCALE = 0.2;
 let OVERFLOW_THRESHOLD = 50;
+let opacity = 50;
 let scaleFactor;
 let selectedStar = null; // Stores the clicked star
 let infoBox;
@@ -366,7 +367,7 @@ function showQuestion() {
 
     //Wealth
     if (i == 0){
-      fill(0, 255, 0, 50);
+      fill(0, 255, 0, opacity);
       stroke(0, 255, 0);
       rect(x, y, w, h, 50);
       noStroke();
@@ -376,7 +377,7 @@ function showQuestion() {
     }
     //Health
     if (i == 1){
-      fill(255, 0, 0, 50);
+      fill(255, 0, 0, opacity);
       stroke(255, 0, 0);
       rect(x, y, w, h, 50);
       noStroke();
@@ -387,7 +388,7 @@ function showQuestion() {
     }
     //Freedom
     if (i == 2){
-      fill(0, 0, 255, 50);
+      fill(0, 0, 255, opacity);
       stroke(0, 0, 255);
       rect(x, y, w, h, 50);
       noStroke();
@@ -398,7 +399,7 @@ function showQuestion() {
     }
     //Generosity
     if (i == 3){
-      fill(255, 255, 255, 50);
+      fill(255, 255, 255, opacity);
       stroke(255, 255, 255);
       rect(x, y, w, h, 50);
       noStroke();
