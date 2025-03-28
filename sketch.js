@@ -262,32 +262,15 @@ function keyPressed() {
     if (key == '1') {
       wealthScore++;
       wealthSound.play();
-      opacity1 = 100;
-    setTimeout(() => {
-      opacity1 = 50; 
-    }, 1000);
     } else if (key == '2') {
       healthScore++;
       healthSound.play();
-    opacity2 = 100;
-    setTimeout(() => {
-      opacity2 = 50; 
-    }, 1000);
     } else if (key == '3') {
       freedomScore++;
       freedomSound.play();
-      opacity3 = 100;
-      setTimeout(() => {
-      opacity3 = 50; 
-    }, 1000);
     } else if (key == '4') {
       generosityScore++;
       generositySound.play();
-      opacity4 = 100;
-      setTimeout(() => {
-      opacity4 = 50; 
-    }, 1000);
-      
     }
 
     opacity = 100;
