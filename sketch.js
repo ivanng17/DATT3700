@@ -73,7 +73,10 @@ let STAR_COUNT;
 let STAR_SIZE = 3;
 let STAR_MIN_SCALE = 0.2;
 let OVERFLOW_THRESHOLD = 50;
-let opacity = 50;
+let opacity1 = 50;
+let opacity2 = 50;
+let opacity3 = 50;
+let opacity4 = 50;
 let scaleFactor;
 let selectedStar = null; // Stores the clicked star
 let infoBox;
@@ -259,21 +262,32 @@ function keyPressed() {
     if (key == '1') {
       wealthScore++;
       wealthSound.play();
+      opacity1 = 100;
+      setTimeout(() => {
+        opacity1 = 0;
+      }, 1000);
     } else if (key == '2') {
       healthScore++;
       healthSound.play();
+      opacity2 = 100;
+      setTimeout(() => {
+        opacity2 = 0;
+      }, 1000);
     } else if (key == '3') {
       freedomScore++;
       freedomSound.play();
+      opacity3 = 100;
+      setTimeout(() => {
+        opacity3 = 0;
+      }, 1000);
     } else if (key == '4') {
       generosityScore++;
       generositySound.play();
+      opacity4 = 100;
+      setTimeout(() => {
+        opacity4 = 0;
+      }, 1000);
     }
-
-    opacity = 100; // set opacity to 100
-    setTimeout(() => {
-      opacity = 50; // reset after 1 second (1000 ms)
-    }, 1000);
 
     currentQuestion++;
   }
