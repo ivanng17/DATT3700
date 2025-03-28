@@ -266,21 +266,21 @@ function keyPressed() {
     setTimeout(() => {
       opacity1 = 50; 
     }, 1000);
-    } else if (key == '2') {
+    } if (key == '2') {
       healthScore++;
       healthSound.play();
     opacity2 = 100;
     setTimeout(() => {
       opacity2 = 50; 
     }, 1000);
-    } else if (key == '3') {
+    } if (key == '3') {
       freedomScore++;
       freedomSound.play();
       opacity3 = 100;
       setTimeout(() => {
       opacity3 = 50; 
     }, 1000);
-    } else if (key == '4') {
+    } if (key == '4') {
       generosityScore++;
       generositySound.play();
       opacity4 = 100;
@@ -289,11 +289,6 @@ function keyPressed() {
     }, 1000);
       
     }
-
-    opacity = 100;
-    setTimeout(() => {
-      opacity = 50; 
-    }, 1000);
 
     currentQuestion++;
   }
