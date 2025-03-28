@@ -249,6 +249,8 @@ function mousePressed() {
   }
 }
 
+function keyPressed() {
+  
 if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState == 1)){
     surveyState++;
   }
@@ -274,7 +276,7 @@ if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState == 1)
     currentQuestion++;
     generositySound.play();
   }
-
+}
 let titleDisplayed = false; 
 
 function showTitle() {
