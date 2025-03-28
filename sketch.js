@@ -364,7 +364,7 @@ function showQuestion() {
 
     //Wealth
     if (i == 0){
-      fill(0, 255, 0, opacity);
+      fill(0, 255, 0, opacity1);
       stroke(0, 255, 0);
       rect(x, y, w, h, 50);
       noStroke();
@@ -374,7 +374,7 @@ function showQuestion() {
     }
     //Health
     if (i == 1){
-      fill(255, 0, 0, opacity);
+      fill(255, 0, 0, opacity2);
       stroke(255, 0, 0);
       rect(x, y, w, h, 50);
       noStroke();
@@ -385,7 +385,7 @@ function showQuestion() {
     }
     //Freedom
     if (i == 2){
-      fill(0, 0, 255, opacity);
+      fill(0, 0, 255, opacity3);
       stroke(0, 0, 255);
       rect(x, y, w, h, 50);
       noStroke();
@@ -396,7 +396,7 @@ function showQuestion() {
     }
     //Generosity
     if (i == 3){
-      fill(255, 255, 255, opacity);
+      fill(255, 255, 255, opacity4);
       stroke(255, 255, 255);
       rect(x, y, w, h, 50);
       noStroke();
