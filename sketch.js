@@ -251,38 +251,32 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  // If the user inputs a key at the title screen, go to the questions
   if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState == 1)){
     surveyState++;
   }
-  
-  // If the user inputs a choice, add points to the specified category
-  if ((key == '1') && (currentQuestion < questions.length) && (surveyState == 2)){
-    wealthScore++;
-    currentQuestion++;
-    wealthSound.play();
-  }
-  if ((key == '2') && (currentQuestion < questions.length) && (surveyState == 2)){
-    healthScore++;
-    currentQuestion++;
-    healthSound.play();
-  }
-  if ((key == '3') && (currentQuestion < questions.length) && (surveyState == 2)){
-    freedomScore++;
-    currentQuestion++;
-    freedomSound.play();
-  }
-  if ((key == '4') && (currentQuestion < questions.length) && (surveyState == 2)){
-    generosityScore++;
-    currentQuestion++;
-    generositySound.play();
-  }
 
-  // If the user answers all the questions, go to the result screen
-  if (currentQuestion >= questions.length) {
-    surveyState++;
+  if ((surveyState == 2) && (currentQuestion < questions.length)) {
+    if (key == '1') {
+      wealthScore++;
+      wealthSound.play();
+    } else if (key == '2') {
+      healthScore++;
+      healthSound.play();
+    } else if (key == '3') {
+      freedomScore++;
+      freedomSound.play();
+    } else if (key == '4') {
+      generosityScore++;
+      generositySound.play();
+    }
+
+    opacity = 100; // set opacity to 100
+    setTimeout(() => {
+      opacity = 50; // reset after 1 second (1000 ms)
+    }, 1000);
+
+    currentQuestion++;
   }
-  
 }
 
 let titleDisplayed = false; 
