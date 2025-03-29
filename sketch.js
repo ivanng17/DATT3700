@@ -78,6 +78,13 @@ let selectedStar = null; // Stores the clicked star
 let infoBox;
 let infoBox2;
 
+let opacity1 = 50;
+let opacity2 = 50;
+let opacity3 = 50;
+let opacity4 = 50;
+
+let titleDisplayed = false; 
+
 function preload(){
   // Loading the data from the world happiness report
   table = loadTable("dataset.csv", "csv", "header");
@@ -183,15 +190,15 @@ function draw() {
   background(0);
 
   // Chooses which state is being displayed on the website
-  if (surveyState == 1){
+  if (surveyState === 1){
     showTitle();
     restartButton.hide(); 
   }
-  else if (surveyState == 2){
+  else if (surveyState === 2){
     showQuestion();
     restartButton.hide();
   }
-  else if (surveyState == 3){
+  else if (surveyState === 3){
     showResult();
     restartButton.hide();
   }
@@ -251,40 +258,50 @@ function mousePressed() {
 
 function keyPressed() {
   // If the user inputs a key at the title screen, go to the questions
-  if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState == 1)){
+  if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState === 1)){
     surveyState++;
   }
   
   // If the user inputs a choice, add points to the specified category
-  if ((key == '1') && (currentQuestion < questions.length) && (surveyState == 2)){
+  if ((key == '1') && (currentQuestion < questions.length) && (surveyState === 2)){
     wealthScore++;
-    currentQuestion++;
     wealthSound.play();
+    currentQuestion++;
   }
-  if ((key == '2') && (currentQuestion < questions.length) && (surveyState == 2)){
+  if ((key == '2') && (currentQuestion < questions.length && currentQuestion >= 0) && (surveyState === 2)){
     healthScore++;
-    currentQuestion++;
     healthSound.play();
+    currentQuestion++;
   }
-  if ((key == '3') && (currentQuestion < questions.length) && (surveyState == 2)){
+  if ((key == '3') && (currentQuestion < questions.length && currentQuestion >= 0) && (surveyState === 2)){
     freedomScore++;
-    currentQuestion++;
     freedomSound.play();
-  }
-  if ((key == '4') && (currentQuestion < questions.length) && (surveyState == 2)){
-    generosityScore++;
     currentQuestion++;
+  }
+  if ((key == '4') && (currentQuestion < questions.length && currentQuestion >= 0) && (surveyState === 2)){
+    generosityScore++;
     generositySound.play();
+    currentQuestion++;
+  }
+
+  if ((key == '1') && (result === "Wealth") && (surveyState === 3)){
+    surveyState++;
+  }
+  if ((key == '2') && (result === "Health") && (surveyState === 3)){
+    surveyState++;
+  }
+  if ((key == '3') && (result === "Freedom") && (surveyState === 3)){
+    surveyState++;
+  }
+  if ((key == '4') && (result === "Generosity") && (surveyState === 3)){
+    surveyState++;
   }
 
   // If the user answers all the questions, go to the result screen
-  if (currentQuestion >= questions.length) {
+  if ((key == '1' || key == '2' || key == '3' || key == '4') && (currentQuestion >= questions.length) && (surveyState === 2)) {
     surveyState++;
   }
-  
 }
-
-let titleDisplayed = false; 
 
 function showTitle() {
   noStroke();
@@ -366,7 +383,7 @@ function showQuestion() {
 
     //Wealth
     if (i == 0){
-      fill(0, 255, 0, 50);
+      fill(0, 255, 0, opacity1);
       stroke(0, 255, 0);
       rect(x, y, w, h, 50);
       noStroke();
@@ -376,7 +393,7 @@ function showQuestion() {
     }
     //Health
     if (i == 1){
-      fill(255, 0, 0, 50);
+      fill(255, 0, 0, opacity2);
       stroke(255, 0, 0);
       rect(x, y, w, h, 50);
       noStroke();
@@ -387,7 +404,7 @@ function showQuestion() {
     }
     //Freedom
     if (i == 2){
-      fill(0, 0, 255, 50);
+      fill(0, 0, 255, opacity3);
       stroke(0, 0, 255);
       rect(x, y, w, h, 50);
       noStroke();
@@ -398,7 +415,7 @@ function showQuestion() {
     }
     //Generosity
     if (i == 3){
-      fill(255, 255, 255, 50);
+      fill(255, 255, 255, opacity4);
       stroke(255, 255, 255);
       rect(x, y, w, h, 50);
       noStroke();
@@ -534,8 +551,8 @@ function generateStars() {
             z: STAR_MIN_SCALE + random(1 - STAR_MIN_SCALE),
             country: {
                 name: country.getString(0),
-                health: country.getNum(1),
                 wealth: country.getNum(2),
+                health: country.getNum(1),
                 freedom: country.getNum(3),
                 generosity: country.getNum(4)
             }
@@ -671,8 +688,8 @@ function displayStats(star) {
     text(`Country: ${star.country.name}`, panelX + 10, panelY + 10);
 
     let stats = [
-        { label: "Health", value: star.country.health, color: color(207, 89, 89) },
         { label: "Wealth", value: star.country.wealth, color: color(95, 180, 95) },
+        { label: "Health", value: star.country.health, color: color(207, 89, 89) },
         { label: "Freedom", value: star.country.freedom, color: color(63, 135, 202) },
         { label: "Generosity", value: star.country.generosity, color: color(214, 229, 234) }
     ];
