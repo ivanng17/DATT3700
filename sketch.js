@@ -52,7 +52,7 @@ let questions = [
 ];
 
 //Initializing variables
-let currentQuestion = -1;
+let currentQuestion = 0;
 let wealthScore = 0;
 let healthScore = 0;
 let freedomScore = 0;
@@ -258,49 +258,100 @@ function mousePressed() {
 
 function keyPressed() {
   // If the user inputs a key at the title screen, go to the questions
-  if ((key == '1' || key == '2' || key == '3' || key == '4') && (surveyState === 1)){
+if (surveyState === 1){
+  if ((key == '1' || key == '2' || key == '3' || key == '4')){
+    starSound.play();
     surveyState++;
   }
-  
+}
+
+else if (surveyState === 2){
   // If the user inputs a choice, add points to the specified category
-  if ((key == '1') && (currentQuestion < questions.length) && (surveyState === 2)){
+  if ((key == '1')){
     wealthScore++;
     wealthSound.play();
-    currentQuestion++;
+    opacity1 = 255;
+    if (currentQuestion < questions.length - 1){
+      setTimeout(function(){
+        opacity1 = 50;
+        currentQuestion++;
+      }, 1500);
+    }
+    else{
+      setTimeout(function(){
+        opacity1 = 50;
+        surveyState++;
+      }, 1500);
+    }
   }
-  if ((key == '2') && (currentQuestion < questions.length && currentQuestion >= 0) && (surveyState === 2)){
+  if ((key == '2')){
     healthScore++;
     healthSound.play();
-    currentQuestion++;
+    opacity2 = 255;
+    if (currentQuestion < questions.length - 1){
+      setTimeout(function(){
+        opacity2 = 50;
+        currentQuestion++;
+      }, 1500);
+    }
+    else{
+      setTimeout(function(){
+        opacity2 = 50;
+        surveyState++;
+      }, 1500);
+    }
   }
-  if ((key == '3') && (currentQuestion < questions.length && currentQuestion >= 0) && (surveyState === 2)){
+  if ((key == '3')){
     freedomScore++;
     freedomSound.play();
-    currentQuestion++;
+    opacity3 = 255;
+    if (currentQuestion < questions.length - 1){
+      setTimeout(function(){
+        opacity3 = 50;
+        currentQuestion++;
+      }, 1500);
+    }
+    else{
+      setTimeout(function(){
+        opacity3 = 50;
+        surveyState++;
+      }, 1500);
+    }
   }
-  if ((key == '4') && (currentQuestion < questions.length && currentQuestion >= 0) && (surveyState === 2)){
+  if ((key == '4')){
     generosityScore++;
     generositySound.play();
-    currentQuestion++;
+    opacity4 = 255;
+    if (currentQuestion < questions.length - 1){
+      setTimeout(function(){
+        opacity4 = 50;
+        currentQuestion++;
+      }, 1500);
+    }
+    else{
+      setTimeout(function(){
+        opacity4 = 50;
+        surveyState++;
+      }, 1500);
+    }
   }
+}
 
-  if ((key == '1') && (result === "Wealth") && (surveyState === 3)){
+else if (surveyState === 3){
+  if ((key == '1') && (result === "Wealth")){
     surveyState++;
   }
-  if ((key == '2') && (result === "Health") && (surveyState === 3)){
+  if ((key == '2') && (result === "Health")){
     surveyState++;
   }
-  if ((key == '3') && (result === "Freedom") && (surveyState === 3)){
+  if ((key == '3') && (result === "Freedom")){
     surveyState++;
   }
-  if ((key == '4') && (result === "Generosity") && (surveyState === 3)){
+  if ((key == '4') && (result === "Generosity")){
     surveyState++;
   }
-
-  // If the user answers all the questions, go to the result screen
-  if ((key == '1' || key == '2' || key == '3' || key == '4') && (currentQuestion >= questions.length) && (surveyState === 2)) {
-    surveyState++;
-  }
+}
+else{}
 }
 
 function showTitle() {
@@ -713,7 +764,7 @@ function displayStats(star) {
 function goToTitle() {
     //resetting variables
     surveyState = 1;  
-    currentQuestion = -1; 
+    currentQuestion = 0; 
     wealthScore = 0;
     healthScore = 0;
     freedomScore = 0;
