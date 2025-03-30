@@ -46,7 +46,7 @@ let questions = [
     points: ["Wealth", "Health", "Freedom", "Generosity"]
   },
   { q: "Where would you prioritize govermental resources?", 
-    answers: ["Economic growth.", "Health care", "Protecting civil liberties", "Education and social programs"],
+    answers: ["Economic growth.", "Health care.", "Protecting civil liberties.", "Education and social programs."],
     points: ["Wealth", "Health", "Freedom", "Generosity"]
   }
 ];
